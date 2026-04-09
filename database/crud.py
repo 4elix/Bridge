@@ -2,7 +2,7 @@ from database.db import db_connection
 
 
 async def work_user(*args, part):
-    async with await db_connection() as db:
+    async with db_connection() as db:
         user_data = None
 
         if part == 'get':
@@ -20,7 +20,7 @@ async def work_user(*args, part):
 
 
 async def work_faq(*args, part):
-    async with await db_connection() as db:
+    async with db_connection() as db:
         data_faq = None
         if part == 'get':
             cursor = await db.execute('SELECT * FROM faq;')

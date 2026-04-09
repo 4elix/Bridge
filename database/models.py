@@ -1,8 +1,9 @@
+import asyncio
 from database.db import db_connection
 
 
 async def create_table_users():
-    async with await db_connection() as db:
+    async with db_connection() as db:
         await db.executescript('''
             DROP TABLE IF EXISTS users;
             CREATE TABLE IF NOT EXISTS users(
@@ -16,8 +17,8 @@ async def create_table_users():
 
 
 async def create_table_faq():
-    async with await db_connection() as db:
-        db.executescript('''
+    async with db_connection() as db:
+        await db.executescript('''
             DROP TABLE IF EXISTS faq;
             CREATE TABLE IF NOT EXISTS faq(
                 faq_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -26,3 +27,12 @@ async def create_table_faq():
             );
         ''')
         await db.commit()
+
+
+async def start_create_models():
+    await create_table_users()
+    await create_table_faq()
+
+
+if __name__ == '__main__':
+    asyncio.run(start_create_models())

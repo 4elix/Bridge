@@ -1,7 +1,9 @@
 import aiosqlite
+from pathlib import Path
 
-DB_PATH = 'database/database.db'
+BASE_DIR = Path(__file__).resolve().parent
+DB_PATH = BASE_DIR / "database.db"
 
 
-async def db_connection():
-    return await aiosqlite.connect(DB_PATH)
+def db_connection():
+    return aiosqlite.connect(DB_PATH)
