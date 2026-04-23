@@ -13,7 +13,7 @@ kb_finish_register = InlineKeyboardMarkup(
 def kb_start_menu(role):
     func = ['Часто задаваемые вопросы', 'Написать менеджеру']
     if role == 'admin':
-        func.append('Создать вопрос')
+        func.extend(['Создать вопрос', 'Работать с вопросом'])
 
     btn = [[KeyboardButton(text=b)] for b in func]
     markup = ReplyKeyboardMarkup(resize_keyboard=True, keyboard=btn)
@@ -56,3 +56,19 @@ def kb_pagination(page, count_object):
 
     markup = InlineKeyboardMarkup(inline_keyboard=[buttons])
     return markup
+
+
+def kb_work_faq(faq_id):
+    markup = InlineKeyboardMarkup(inline_keyboard=[
+        [
+            InlineKeyboardButton(text='Изменить', callback_data=f'change_faq_{faq_id}'),
+            InlineKeyboardButton(text='Удалить', callback_data=f'delete_faq_{faq_id}')
+        ]
+    ])
+    return markup
+
+
+kb_change_faq = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text='Изменить', callback_data='save_change_faq')],
+    [InlineKeyboardButton(text='Не изменять', callback_data='dont_change_faq')]
+])

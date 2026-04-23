@@ -42,6 +42,7 @@ async def react_btn_btm(callback: CallbackQuery, state: FSMContext):
     await state.clear()
     tg_id = callback.message.chat.id
     role = await work_user(tg_id, part='get')
+    await callback.message.delete()
     await callback.message.answer('Хорошо, вот меню', reply_markup=kb_start_menu(role[2]))
 
 
