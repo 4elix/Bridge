@@ -34,12 +34,13 @@ async def work_faq(*args, part):
         elif part == 'delete':
             await db.execute('DELETE FROM faq WHERE faq_id = ?', (args[0], ))
         elif part == 'update':
-            question, answer = args
+            question, answer, faq_id = args
             await db.execute('''
                 UPDATE faq 
-                SET quantity = ?
+                SET question = ?,
                     answer = ?
-            ''', (question, answer))
+                WHERE faq_id = ?
+            ''', (question, answer, faq_id))
 
         await db.commit()
         return data_faq

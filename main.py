@@ -4,8 +4,11 @@ import asyncio
 from dotenv import load_dotenv
 from aiogram import Bot, Dispatcher
 
-from handlers.texts import txt_router
-from handlers.callbacks import call_router
+from handlers.commands import cmd_router
+from handlers.texts_admin import txt_admin_router
+from handlers.texts_clients import txt_client_router
+from handlers.callbacks_admin import call_admin_router
+from handlers.callbacks_clients import call_clients_router
 
 
 async def main():
@@ -13,7 +16,10 @@ async def main():
     token = os.getenv('TOKEN')
     bot = Bot(token=token)
     dp = Dispatcher()
-    dp.include_routers(txt_router, call_router)
+    dp.include_routers(
+        cmd_router, txt_admin_router,
+        txt_client_router, call_admin_router, call_clients_router
+    )
 
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)

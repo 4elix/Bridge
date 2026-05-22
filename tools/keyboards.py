@@ -11,9 +11,9 @@ kb_finish_register = InlineKeyboardMarkup(
 
 
 def kb_start_menu(role):
-    func = ['Часто задаваемые вопрос', 'Написать менеджеру']
+    func = ['Часто задаваемые вопросы', 'Написать менеджеру']
     if role == 'admin':
-        func.append('Создать вопрос')
+        func.extend(['Создать вопрос', 'Работать с вопросом'])
 
     btn = [[KeyboardButton(text=b)] for b in func]
     markup = ReplyKeyboardMarkup(resize_keyboard=True, keyboard=btn)
@@ -28,4 +28,47 @@ kb_create_faq = InlineKeyboardMarkup(inline_keyboard=[
 kb_save_faq = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text='Сохранить', callback_data='save_faq')],
     [InlineKeyboardButton(text='Не сохранять', callback_data='dont_save_faq')]
+])
+
+
+def kb_pagination(page, count_object):
+    buttons = []
+
+    if page > 0:
+        buttons.append(
+            InlineKeyboardButton(
+                text='На предыдущий вопрос', callback_data=f'page:{page-1}'
+            )
+        )
+
+    if page + 1 < count_object:
+        buttons.append(
+            InlineKeyboardButton(
+                text='На следующий вопрос', callback_data=f'page:{page+1}'
+            )
+        )
+    else:
+        buttons.append(
+            InlineKeyboardButton(
+                text='В меню', callback_data=f'back_to_menu'
+            )
+        )
+
+    markup = InlineKeyboardMarkup(inline_keyboard=[buttons])
+    return markup
+
+
+def kb_work_faq(faq_id):
+    markup = InlineKeyboardMarkup(inline_keyboard=[
+        [
+            InlineKeyboardButton(text='Изменить', callback_data=f'change_faq_{faq_id}'),
+            InlineKeyboardButton(text='Удалить', callback_data=f'delete_faq_{faq_id}')
+        ]
+    ])
+    return markup
+
+
+kb_change_faq = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text='Изменить', callback_data='save_change_faq')],
+    [InlineKeyboardButton(text='Не изменять', callback_data='dont_change_faq')]
 ])

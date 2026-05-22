@@ -8,3 +8,9 @@ class RegisterUser(StatesGroup):
 class CreateFaq(StatesGroup):
     question = State()
     answer = State()
+
+
+class ChangeFaq(StatesGroup):
+    faq_id = State()
+    question = State()
+    answer = State()
